@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
 import {
-  createApolloClient,
-  restartWebsockets
+  //createApolloClient,
+  restartWebsockets,
 } from 'vue-cli-plugin-apollo/graphql-client'
+import {ApolloClient} from 'apollo-client'
 import {
   split
 } from "apollo-link"
@@ -40,18 +41,18 @@ const wsLink = new WebSocketLink({
 });
 
 // Config
-const defaultOptions = {
+//const defaultOptions = {
   //httpEndpoint,
   //wsEndpoint: 'ws://localhost:3000/graphql' /*process.env.VUE_APP_GRAPHQL_WS*/ ,
   // LocalStorage token
-  tokenName: AUTH_TOKEN,
+  //tokenName: AUTH_TOKEN,
   // Enable Automatic Query persisting with Apollo Engine
-  persisting: false,
+  //persisting: false,
   // Use websockets for everything (no HTTP)
   // You need to pass a `wsEndpoint` for this to work
   //websocketsOnly: true,
   // Is being rendered on the server?
-  ssr: false,
+  //ssr: false,
 
   // Override default apollo link
   // note: don't override httpLink here, specify httpLink options in the
@@ -75,7 +76,7 @@ const defaultOptions = {
 
   // Client local data (see apollo-link-state)
   // clientState: { resolvers: { ... }, defaults: { ... } }
-}
+//}
 
 //subscriptionの場合はtrue
 const link = split(
@@ -94,8 +95,8 @@ const link = split(
   httpLink
 );
 
-// Call this in the Vue app file
 export function createProvider( /*options = {}*/ ) {
+  /*
   const createFav = createApolloClient({
     link,
     ...defaultOptions,
@@ -103,9 +104,16 @@ export function createProvider( /*options = {}*/ ) {
     connectToDevTools: true,
   })
   const clientFav = createFav.apolloClient;
-  // Create vue apollo provider
+  */
+
+  const apolloClient = new ApolloClient({
+    link,
+    cache: new InMemoryCache(),
+    connectToDevTools: true,
+  })
+
   const apolloProvider = new VueApollo({
-    defaultClient: clientFav,
+    defaultClient: apolloClient,
     defaultOptions: {
       $query: {
         fetchPolicy: 'cache-and-network',

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "-": "0.0.1",
+    "apollo-client": "^2.6.9",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "s": "^1.0.0",

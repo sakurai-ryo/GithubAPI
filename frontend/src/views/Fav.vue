@@ -2,7 +2,7 @@
   <v-app class="mt-4 mb-4">
     <v-container class="mt-4 mb-4 mt-9 mb-9">
       <v-row>
-        <v-col cols="12" sm="3" v-for="(fav,index) of favs" :key="index">
+        <v-col cols="12" sm="3" v-for="(fav,index) of favorites" :key="index">
           <v-card class="mx-auto" max-width="400">
             <v-img class="white--text align-end" height="200px" :src="fav.openGraphImageUrl"></v-img>
 
@@ -32,47 +32,42 @@
 <script>
 import { getFavQuery } from "../queries/getFavQuery";
 import { deleteFavQuery } from "../queries/deletFavQuery";
-import { subscriptionFavDelete } from "../queries/subscription";
+//import { subscriptionFavDelete } from "../queries/subscription";
 
 export default {
   name: "Fav",
-  data() {
-    return {
-      favs: []
-    };
+  apollo: {
+    favorites: getFavQuery
   },
-  created() {
-    if (this.favs.length > 0) this.favs.length = 0;
-    this.getFav();
+  data() {
+    return {};
   },
   methods: {
-    getFav() {
+    deleteFav(id) {
       this.$apollo
-        .query({
-          query: getFavQuery
-        })
-        .then(res => {
-          this.favs = res.data.favorites;
-        })
-        .catch(console.log);
-    },
-    async deleteFav(id) {
-      await this.$apollo
         .mutate({
           mutation: deleteFavQuery,
           variables: {
             id: id
           },
-          subscribeToMore: [
-            {
-              document: subscriptionFavDelete,
-              updateQuery: (previousResult, { subscriptionData }) => {
-                console.log(1);
-                console.log(subscriptionData);
-                return subscriptionData.data;
-              }
+          update: (store, { data: { deleteFav } }) => {
+            //クエリの実行
+            const data = store.readQuery({ query: getFavQuery });
+            data.favorites = data.favorites.filter(fav => {
+              return fav.id !== deleteFav.id;
+            });
+            store.writeQuery({ query: getFavQuery, data });
+          }
+          /*
+          subscribeToMore: {
+            document: subscriptionFavDelete,
+            updateQuery: (previousResult, { subscriptionData }) => {
+              console.log(1);
+              console.log(subscriptionData);
+              return subscriptionData.data;
             }
-          ]
+          }
+          */
         })
         .then(res => {
           console.log(res.data);

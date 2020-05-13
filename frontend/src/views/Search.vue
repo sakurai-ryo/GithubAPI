@@ -38,7 +38,7 @@
 <script>
 import { searchQuery } from "../queries/searchQuery";
 import { setFavQuery } from "../queries/setFavQuery";
-import { subscriptionFavCreate } from "../queries/subscription";
+//import { subscriptionFavCreate } from "../queries/subscription";
 import TextField from "../components/TextField";
 import axios from "axios";
 
@@ -86,6 +86,7 @@ export default {
             stargazers: data.stargazers.totalCount,
             url: data.url
           },
+          /*
           subscribeToMore: [
             {
               // below is the subscription query.
@@ -96,6 +97,7 @@ export default {
               }
             }
           ]
+          */
         })
         .then(res => {
           console.log(res.data);
