@@ -69,6 +69,7 @@ export default {
       axios
         .post(process.env.VUE_APP_GITHUB_HTTP, data, config)
         .then(snap => {
+          if (snap.data.data.search.edges.length === 0) alert("検索結果0");
           this.results = snap.data.data.search.edges;
         })
         .catch(err => {
