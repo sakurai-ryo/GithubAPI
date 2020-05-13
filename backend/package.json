@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "graphpack",
+    "build": "graphpack build"
+  },
+  "dependencies": {
+    "@types/sequelize": "^4.28.8",
+    "apollo-server-express": "^2.13.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.16.4",
+    "graphql": "^15.0.0",
+    "morgan": "~1.9.1",
+    "sequelize": "^5.21.7",
+    "sequelize-cli": "^5.5.1",
+    "sqlite3": "^4.2.0"
+  },
+  "devDependencies": {
+    "babel-plugin-import-graphql": "^2.7.0",
+    "graphpack": "^1.0.9",
+    "webpack-graphql-loader": "^1.0.2",
+    "webpack-node-externals": "^1.7.2"
+  }
+}
